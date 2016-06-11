@@ -59,6 +59,7 @@
                     Thread.Sleep(0x7d0);
                     url = "http://search.yhd.com/c0-0/k" + HttpUtility.UrlEncode(StrUnit.UrlEncode(base.keywordInf.keyword, true).ToUpper()) + "/null/"; //form of url
                     text = base.http.Get(url, "http://www.yhd.com");
+                    //Console.WriteLine(text);
                     refererUrl = url; //copy search url to referer url
                     if (text.Contains("id=\"plist")) // id = "plist
                     {

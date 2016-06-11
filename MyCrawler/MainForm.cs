@@ -54,7 +54,7 @@
                 this.txt_showInf.Invoke(method);
             }
             else
-            {
+            { 
                 this.txt_showInf.AppendText(str + "\r\n");
             }
         }
@@ -126,7 +126,7 @@
                     MessageBox.Show(this, "请输入起始价格，无需价格则留空！", "错误", MessageBoxButtons.OK, MessageBoxIcon.Hand);
                 }
                 else
-                {
+                { //begin search
                     this.btn_start.Enabled = false;
                     this.btn_stop.Enabled = true;
                     this.btn_toexcel.Enabled = false;
@@ -150,11 +150,14 @@
                     this.th.Start(new UpdateTextBox(this.AppendTextBox));
                     while (!this.th.Stoped)
                     {
+                        
                         Thread.Sleep(500);
                         Application.DoEvents();
+
                     }
                     Thread.Sleep(0x7d0);
                     MessageBox.Show(this, "查询完毕！", "提示", MessageBoxButtons.OK, MessageBoxIcon.None);
+                    //th.Stop();
                     this.btn_start.Enabled = true;
                     this.btn_stop.Enabled = false;
                     this.btn_toexcel.Enabled = true;
@@ -177,7 +180,12 @@
             {
                 return new MakepoloTh(lst);
             }
-            return new YHDTh(lst);
+            else if (platform == 1)
+            {
+                return new YHDTh(lst);
+            }
+            return new taobaoTh(lst);
+            
         }
 
         private void InitializeComponent()
@@ -330,7 +338,7 @@
             this.txt_keywords.TabIndex = 0;
             this.cb_platform.DropDownStyle = ComboBoxStyle.DropDownList;
             this.cb_platform.FormattingEnabled = true;
-            this.cb_platform.Items.AddRange(new object[] { "马可波罗", "一号店" });
+            this.cb_platform.Items.AddRange(new object[] { "马可波罗", "一号店", "1688", "ali express", "amazon.jp" });
             this.cb_platform.Location = new Point(0xed, 0x18);
             this.cb_platform.Margin = new Padding(3, 4, 3, 4);
             this.cb_platform.Name = "cb_platform";
