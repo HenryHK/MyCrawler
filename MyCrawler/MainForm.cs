@@ -212,6 +212,10 @@
             {
                 return new aeTh(lst);
             }
+            else if(platform == 4)
+            {
+                return new aliTh(lst);
+            }
             return null;
             
         }
@@ -424,6 +428,7 @@
             "一号店",
             "1688",
             "ali express",
+            "alibaba.com",
             "amazon.jp"});
             this.cb_platform.Location = new System.Drawing.Point(237, 24);
             this.cb_platform.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);

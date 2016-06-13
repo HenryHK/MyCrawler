@@ -36,7 +36,7 @@
         {
             if (this.OutDataTable == null)
             {
-                this.OutDataTable = new DataTable();
+                this.OutDataTable = new DataTable(); //definition of columns
                 this.OutDataTable.Columns.AddRange(new DataColumn[] { new DataColumn("Platform", typeof(string)), new DataColumn("Keyword", typeof(string)), new DataColumn("ItemId", typeof(string)), new DataColumn("Title", typeof(string)), new DataColumn("Url", typeof(string)), new DataColumn("Price", typeof(string)), new DataColumn("StoreName", typeof(string)), new DataColumn("StoreUrl", typeof(string)), new DataColumn("SellerId", typeof(string)) });
             }
         }

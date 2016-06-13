@@ -73,6 +73,8 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="MyCrawler\aeTh.cs" />
+    <Compile Include="MyCrawler\aliTh.cs" />
+    <Compile Include="MyCrawler\amazonJp.cs" />
     <Compile Include="MyCrawler\taobaoTh.cs" />
     <Compile Include="MyCrawler\UpdateTextBox.cs" />
     <Compile Include="MyCrawler\BaseWorkth.cs" />

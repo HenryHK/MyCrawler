@@ -135,7 +135,7 @@
                 if (node == null)
                 {
                     base.updateTextBox("获取商品列表失败", true);
-                    throw new Exception("获取商品列表失败");
+                    
                 }
 
                 foreach (string itemInfo in node.InnerHtml.Split(new string[] {"<li qrdata"}, StringSplitOptions.RemoveEmptyEntries))
