@@ -12,6 +12,8 @@
     class taobaoTh : BaseWorkth
     {
 
+        int page = 1;
+
         //construct
         public taobaoTh(List<KeywordInf> list)
         {
@@ -30,7 +32,7 @@
                 string url = string.Empty;
                 string refererUrl = string.Empty;
                 string text = string.Empty;
-                string s = String.Empty;
+                string s = string.Empty;
                 int num = 0; //count
                 base.IniDataTable();
                 base.http = new DoNet4.Utilities.HttpClientHelper(0x4e20);
@@ -60,7 +62,7 @@
                     Label_search_taobao:
                     Thread.Sleep(0x7d0);
                     System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
-                    url = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper();//(base.keywordInf.keyword).ToString();
+                    url = "http://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper();//(base.keywordInf.keyword).ToString();
                     text = base.http.Get(url);
                     refererUrl = url;
                     if (text.Contains("没找到与"))
@@ -84,7 +86,8 @@
                         {
                             base.updateTextBox(base.keywordInf.keyword + " node为空（null）!", true);
                         }
-                        else {
+                        else
+                        {
                             s = StrUnit.MidStrEx(node.InnerHtml, "<em>", "</em>");
                             if (!int.TryParse(s, out result))
                             {
@@ -104,7 +107,7 @@
                         { //get the useful data, go into iterations
                           //for ()
                             base.updateTextBox("共检索到" + s + " 件相关商品， 开始爬取", true);
-                            for (string str6 = this.GetData(text); !string.IsNullOrEmpty(str6); str6 = this.GetData(text)) //?
+                            for (string str6 = this.GetData(text); !string.IsNullOrEmpty(str6); str6 = this.GetData1(text)) //?
                             {
                                 Thread.Sleep(0x7d0);
                                 text = base.http.Get(str6, refererUrl);
@@ -175,37 +178,50 @@
                     }
                     
                 }//end of info retrieving
+                 /*
+                 HtmlNode node2;
+                 //node2 = new HtmlNode();
+                 node2 = document.DocumentNode.SelectSingleNode("//div[@id='fui_widget_4']/span");
+                 string pageSelectionInfo = StrUnit.MidStrEx(text, "<span class=\"fui-paging-list\">", "</span>");
+                 string nextPage = string.Empty;
+                 if (node2 != null)
+                 {
+                     //innerHtml = node.InnerHtml;
+                     foreach (string pageInfo in node2.InnerHtml.Split(new string[] { "<a href=#" }, StringSplitOptions.RemoveEmptyEntries))
+                     {
+                         if (pageInfo.IndexOf("fui-next") != -1)
+                         {
+                             nextPage = StrUnit.MidStrEx(pageInfo, "data-page=\"", "\"");
+                             break;
+                         }
 
-                node = document.DocumentNode.SelectSingleNode("//a[@class='fui-current']");
-                string nextPage = string.Empty;
-                if (node != null)
+                         int resultPage = 0;
+                         if (!int.TryParse(nextPage, out resultPage))
+                         {
+                             System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
+                             str = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper() + "&beginPage=" + nextPage;
+                             return str;
+                         }
+                         base.updateTextBox(base.keywordInf.keyword + " 第 " + (resultPage-1) + " 页获取完成", true);
+                         if (resultPage > base.keywordInf.endPage)
+                         {
+                             str = string.Empty;
+                         }
+
+                     }//end of for each
+                     //source = StrUnit.
+                     return str;
+                 }*/
+                base.updateTextBox(base.keywordInf.keyword + " 第 " + (page) + " 页获取完成", true);
+                if (page >= base.keywordInf.endPage)
                 {
-                    //innerHtml = node.InnerHtml;
-                    foreach (string pageInfo in node.InnerHtml.Split(new string[] { "<a href=#" }, StringSplitOptions.RemoveEmptyEntries))
-                    {
-                        if (pageInfo.IndexOf("fui-next") != -1)
-                        {
-                            nextPage = StrUnit.MidStrEx(pageInfo, "data-page=\"", "\"");
-                            break;
-                        }
-
-                        int resultPage = 0;
-                        if (!int.TryParse(nextPage, out resultPage))
-                        {
-                            System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
-                            str = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper() + "&beginPage=" + nextPage;
-                            return str;
-                        }
-                        base.updateTextBox(base.keywordInf.keyword + " 第 " + (resultPage-1) + " 页获取完成", true);
-                        if (resultPage > base.keywordInf.endPage)
-                        {
-                            str = string.Empty;
-                        }
-
-                    }//end of for each
-                    //source = StrUnit.
-                    return str;
+                    str = string.Empty;
                 }
+                ++page;
+                System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
+                str = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper() + "&beginPage=" + page;
+                return str;
+
 
             }
             catch (Exception e)
@@ -214,6 +230,113 @@
             }
             return str;
         }
+
+
+        private string GetData1(string text)
+        {
+            string str = string.Empty;
+            innerHtml = string.Empty; //innerHtml content
+            string source = string.Empty;
+            try
+            {
+                HtmlDocument document = new HtmlDocument();
+                document.LoadHtml(text);
+                HtmlNode node = null;
+                node = document.DocumentNode.SelectSingleNode("//ul[@id='sm-offer-list']");
+                if (node == null)
+                {
+                    base.updateTextBox("获取商品列表失败", true);
+                    throw new Exception("获取商品列表失败");
+                }
+
+                foreach (string str2 in node.InnerHtml.Split(new string[] { "<li t" }, StringSplitOptions.RemoveEmptyEntries))
+                {
+                    if (str2.IndexOf("-rank") != -1)
+                    {
+                        source = StrUnit.MidStrEx(str2, "rank", "</li>");
+                        DataRow row = base.OutDataTable.NewRow();
+                        row["Platform"] = "1688.com";
+                        row["Keyword"] = base.keywordInf.keyword;
+                        row["ItemID"] = StrUnit.MidStrEx(source, "t-offer-id=\"", "\"");
+                        row["SellerId"] = StrUnit.MidStrEx(source, "t-member-id=\"", "\"");
+                        string goodInfo = string.Empty;
+                        goodInfo = StrUnit.MidStrEx(source, "sm-offer-photo sw-dpl-offer-photo", "</div>");
+                        row["Url"] = StrUnit.MidStrEx(goodInfo, "href=\"", "\"");
+                        row["Title"] = StrUnit.MidStrEx(goodInfo, "title=\"", "\"");
+                        string priceInfo = string.Empty;
+                        priceInfo = StrUnit.MidStrEx(source, "<div class=\"s-widget-offershopwindowprice sm-offer-price sw-dpl-offer-price\">", "</div>");
+                        row["Price"] = StrUnit.MidStrEx(priceInfo, "title=\"&yen;", "\"");
+                        string companyInfo = string.Empty;
+                        companyInfo = StrUnit.MidStrEx(source, "<div class=\"s-widget-offershopwindowcompanyinfo sm-offer-company sw-dpl-offer-company\">", "</div>");
+                        row["StoreName"] = StrUnit.MidStrEx(companyInfo, "title=\"", "\"");
+                        row["StoreUrl"] = StrUnit.MidStrEx(companyInfo, "href=\"", "\"");
+                        base.OutDataTable.Rows.Add(row);
+                        Thread.Sleep(50);
+
+
+                        if (string.IsNullOrEmpty(row["ItemID"].ToString()))
+                        {
+                            throw new Exception("获取商品列表数据失败！ - 1");
+                        }
+                    }
+
+                }//end of info retrieving
+                 /*
+                 HtmlNode node2;
+                 //node2 = new HtmlNode();
+                 node2 = document.DocumentNode.SelectSingleNode("//div[@id='fui_widget_4']/span");
+                 string pageSelectionInfo = StrUnit.MidStrEx(text, "<span class=\"fui-paging-list\">", "</span>");
+                 string nextPage = string.Empty;
+                 if (node2 != null)
+                 {
+                     //innerHtml = node.InnerHtml;
+                     foreach (string pageInfo in node2.InnerHtml.Split(new string[] { "<a href=#" }, StringSplitOptions.RemoveEmptyEntries))
+                     {
+                         if (pageInfo.IndexOf("fui-next") != -1)
+                         {
+                             nextPage = StrUnit.MidStrEx(pageInfo, "data-page=\"", "\"");
+                             break;
+                         }
+
+                         int resultPage = 0;
+                         if (!int.TryParse(nextPage, out resultPage))
+                         {
+                             System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
+                             str = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper() + "&beginPage=" + nextPage;
+                             return str;
+                         }
+                         base.updateTextBox(base.keywordInf.keyword + " 第 " + (resultPage-1) + " 页获取完成", true);
+                         if (resultPage > base.keywordInf.endPage)
+                         {
+                             str = string.Empty;
+                         }
+
+                     }//end of for each
+                     //source = StrUnit.
+                     return str;
+                 }*/
+                base.updateTextBox(base.keywordInf.keyword + " 第 " + (page) + " 页获取完成", true);
+                if (page >= base.keywordInf.endPage)
+                {
+                    str = string.Empty;
+                    return str;
+                }
+                ++page;
+                System.Text.Encoding gb2312 = System.Text.Encoding.GetEncoding("gb2312");
+                str = "https://s.1688.com/selloffer/offer_search.htm?keywords=" + HttpUtility.UrlEncode(base.keywordInf.keyword, gb2312).ToUpper() + "&beginPage=" + page;
+                return str;
+
+
+            }
+            catch (Exception e)
+            {
+                base.updateTextBox("GetData Err:" + e.Message, true);
+            }
+            return str;
+        }
+
+
+
 
     }
 }

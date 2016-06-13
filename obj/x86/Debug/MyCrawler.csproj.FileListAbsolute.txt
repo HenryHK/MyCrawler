@@ -40,3 +40,5 @@ C:\Users\lhan\Documents\GitHub\MyCrawler\bin\Debug\NPOI.OpenXml4Net.xml
 C:\Users\lhan\Documents\GitHub\MyCrawler\bin\Debug\NPOI.OOXML.xml
 C:\Users\lhan\Documents\GitHub\MyCrawler\bin\Debug\NPOI.xml
 C:\Users\lhan\Documents\GitHub\MyCrawler\obj\x86\Debug\MyCrawler.csprojResolveAssemblyReference.cache
+C:\Users\lhan\Documents\GitHub\MyCrawler\obj\x86\Debug\MyCrawler.MainForm.resources
+C:\Users\lhan\Documents\GitHub\MyCrawler\obj\x86\Debug\MyCrawler.csproj.GenerateResource.Cache

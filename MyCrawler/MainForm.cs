@@ -132,21 +132,41 @@
                     this.btn_toexcel.Enabled = false;
                     List<KeywordInf> lst = new List<KeywordInf>();
                     string[] strArray = this.txt_keywords.Text.Trim().Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                    for (int i = 0; i < strArray.Length; i++)
+                    if ((byte)this.cb_platform.SelectedIndex <= 2)
                     {
-                        KeywordInf item = new KeywordInf {
-                            keyword = strArray[i],
+                        for (int i = 0; i < strArray.Length; i++)
+                        {
+                            KeywordInf item = new KeywordInf
+                            {
+                                keyword = strArray[i],
+                                beginPage = 1,
+                                endPage = result,
+                                beginPrice = num2,
+                                endPrice = num3,
+                                platform = (byte)this.cb_platform.SelectedIndex,
+                                searthType = (byte)this.cb_searthType.SelectedIndex,
+                                sortType = (byte)this.cb_sortType.SelectedIndex
+                            };
+                            lst.Add(item);
+                        }
+                        this.th = this.GetWorkTh((byte)this.cb_platform.SelectedIndex, lst);
+                    }
+                    else
+                    {
+                        KeywordInf item = new KeywordInf
+                        {
+                            keyword = this.txt_keywords.Text,
                             beginPage = 1,
                             endPage = result,
                             beginPrice = num2,
                             endPrice = num3,
-                            platform = (byte) this.cb_platform.SelectedIndex,
-                            searthType = (byte) this.cb_searthType.SelectedIndex,
-                            sortType = (byte) this.cb_sortType.SelectedIndex
+                            platform = (byte)this.cb_platform.SelectedIndex,
+                            searthType = (byte)this.cb_searthType.SelectedIndex,
+                            sortType = (byte)this.cb_sortType.SelectedIndex
                         };
                         lst.Add(item);
+                        this.th = this.GetWorkTh((byte)this.cb_platform.SelectedIndex, lst);
                     }
-                    this.th = this.GetWorkTh((byte) this.cb_platform.SelectedIndex, lst);
                     this.th.Start(new UpdateTextBox(this.AppendTextBox));
                     while (!this.th.Stoped)
                     {
@@ -184,57 +204,77 @@
             {
                 return new YHDTh(lst);
             }
-            return new taobaoTh(lst);
+            else if (platform == 2)
+            {
+                return new taobaoTh(lst);
+            }
+            else if (platform == 3)
+            {
+                return new aeTh(lst);
+            }
+            return null;
             
         }
 
         private void InitializeComponent()
         {
-            this.groupBox1 = new GroupBox();
-            this.groupBox3 = new GroupBox();
-            this.txt_showInf = new TextBox();
-            this.groupBox2 = new GroupBox();
-            this.btn_toexcel = new Button();
-            this.btn_stop = new Button();
-            this.btn_start = new Button();
-            this.txt_endPrice = new TextBox();
-            this.txt_beginPrice = new TextBox();
-            this.txt_endpage = new TextBox();
-            this.txt_beginpage = new TextBox();
-            this.label2 = new Label();
-            this.label1 = new Label();
-            this.cb_sortType = new ComboBox();
-            this.cb_searthType = new ComboBox();
-            this.txt_keywords = new TextBox();
-            this.cb_platform = new ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txt_showInf = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_toexcel = new System.Windows.Forms.Button();
+            this.btn_stop = new System.Windows.Forms.Button();
+            this.btn_start = new System.Windows.Forms.Button();
+            this.txt_endPrice = new System.Windows.Forms.TextBox();
+            this.txt_beginPrice = new System.Windows.Forms.TextBox();
+            this.txt_endpage = new System.Windows.Forms.TextBox();
+            this.txt_beginpage = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cb_sortType = new System.Windows.Forms.ComboBox();
+            this.cb_searthType = new System.Windows.Forms.ComboBox();
+            this.txt_keywords = new System.Windows.Forms.TextBox();
+            this.cb_platform = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            base.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // groupBox1
+            // 
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.groupBox2);
-            this.groupBox1.Location = new Point(8, 3);
-            this.groupBox1.Margin = new Padding(3, 4, 3, 4);
+            this.groupBox1.Location = new System.Drawing.Point(8, 3);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new Padding(3, 4, 3, 4);
-            this.groupBox1.Size = new Size(0x219, 0x1b2);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox1.Size = new System.Drawing.Size(537, 434);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
+            // 
+            // groupBox3
+            // 
             this.groupBox3.Controls.Add(this.txt_showInf);
-            this.groupBox3.Location = new Point(14, 230);
-            this.groupBox3.Margin = new Padding(3, 4, 3, 4);
+            this.groupBox3.Location = new System.Drawing.Point(14, 230);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Padding = new Padding(3, 4, 3, 4);
-            this.groupBox3.Size = new Size(0x1fc, 0xc3);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox3.Size = new System.Drawing.Size(508, 195);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
-            this.txt_showInf.Location = new Point(0x10, 0x18);
-            this.txt_showInf.Margin = new Padding(3, 4, 3, 4);
+            // 
+            // txt_showInf
+            // 
+            this.txt_showInf.Location = new System.Drawing.Point(16, 24);
+            this.txt_showInf.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_showInf.Multiline = true;
             this.txt_showInf.Name = "txt_showInf";
-            this.txt_showInf.ScrollBars = ScrollBars.Vertical;
-            this.txt_showInf.Size = new Size(0x1c9, 0x9f);
+            this.txt_showInf.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_showInf.Size = new System.Drawing.Size(457, 159);
             this.txt_showInf.TabIndex = 13;
+            // 
+            // groupBox2
+            // 
             this.groupBox2.Controls.Add(this.btn_toexcel);
             this.groupBox2.Controls.Add(this.btn_stop);
             this.groupBox2.Controls.Add(this.btn_start);
@@ -248,120 +288,170 @@
             this.groupBox2.Controls.Add(this.cb_searthType);
             this.groupBox2.Controls.Add(this.txt_keywords);
             this.groupBox2.Controls.Add(this.cb_platform);
-            this.groupBox2.Location = new Point(14, 13);
-            this.groupBox2.Margin = new Padding(3, 4, 3, 4);
+            this.groupBox2.Location = new System.Drawing.Point(14, 13);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Padding = new Padding(3, 4, 3, 4);
-            this.groupBox2.Size = new Size(0x1fc, 0xd6);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.groupBox2.Size = new System.Drawing.Size(508, 214);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
-            this.btn_toexcel.Location = new Point(0xed, 0x9f);
-            this.btn_toexcel.Margin = new Padding(3, 4, 3, 4);
+            // 
+            // btn_toexcel
+            // 
+            this.btn_toexcel.Location = new System.Drawing.Point(237, 159);
+            this.btn_toexcel.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_toexcel.Name = "btn_toexcel";
-            this.btn_toexcel.Size = new Size(0x52, 40);
+            this.btn_toexcel.Size = new System.Drawing.Size(82, 40);
             this.btn_toexcel.TabIndex = 12;
             this.btn_toexcel.Text = "导出excel";
             this.btn_toexcel.UseVisualStyleBackColor = true;
-            this.btn_toexcel.Click += new EventHandler(this.btn_toexcel_Click);
-            this.btn_stop.Location = new Point(0x7e, 0x9f);
-            this.btn_stop.Margin = new Padding(3, 4, 3, 4);
+            this.btn_toexcel.Click += new System.EventHandler(this.btn_toexcel_Click);
+            // 
+            // btn_stop
+            // 
+            this.btn_stop.Location = new System.Drawing.Point(126, 159);
+            this.btn_stop.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_stop.Name = "btn_stop";
-            this.btn_stop.Size = new Size(0x52, 40);
+            this.btn_stop.Size = new System.Drawing.Size(82, 40);
             this.btn_stop.TabIndex = 11;
             this.btn_stop.Text = "停止";
             this.btn_stop.UseVisualStyleBackColor = true;
-            this.btn_stop.Click += new EventHandler(this.btn_stop_Click);
-            this.btn_start.Location = new Point(0x10, 0x9f);
-            this.btn_start.Margin = new Padding(3, 4, 3, 4);
+            this.btn_stop.Click += new System.EventHandler(this.btn_stop_Click);
+            // 
+            // btn_start
+            // 
+            this.btn_start.Location = new System.Drawing.Point(16, 159);
+            this.btn_start.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btn_start.Name = "btn_start";
-            this.btn_start.Size = new Size(0x52, 40);
+            this.btn_start.Size = new System.Drawing.Size(82, 40);
             this.btn_start.TabIndex = 10;
             this.btn_start.Text = "开启检索";
             this.btn_start.UseVisualStyleBackColor = true;
-            this.btn_start.Click += new EventHandler(this.button1_Click);
-            this.txt_endPrice.Location = new Point(0x18e, 0x6a);
-            this.txt_endPrice.Margin = new Padding(3, 4, 3, 4);
+            this.btn_start.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // txt_endPrice
+            // 
+            this.txt_endPrice.Location = new System.Drawing.Point(398, 106);
+            this.txt_endPrice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_endPrice.Name = "txt_endPrice";
-            this.txt_endPrice.Size = new Size(0x3f, 0x17);
+            this.txt_endPrice.Size = new System.Drawing.Size(63, 39);
             this.txt_endPrice.TabIndex = 9;
-            this.txt_beginPrice.Location = new Point(0x139, 0x6a);
-            this.txt_beginPrice.Margin = new Padding(3, 4, 3, 4);
+            // 
+            // txt_beginPrice
+            // 
+            this.txt_beginPrice.Location = new System.Drawing.Point(313, 106);
+            this.txt_beginPrice.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_beginPrice.Name = "txt_beginPrice";
-            this.txt_beginPrice.Size = new Size(0x3f, 0x17);
+            this.txt_beginPrice.Size = new System.Drawing.Size(63, 39);
             this.txt_beginPrice.TabIndex = 8;
-            this.txt_endpage.Location = new Point(0x18e, 0x45);
-            this.txt_endpage.Margin = new Padding(3, 4, 3, 4);
+            // 
+            // txt_endpage
+            // 
+            this.txt_endpage.Location = new System.Drawing.Point(398, 69);
+            this.txt_endpage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_endpage.Name = "txt_endpage";
-            this.txt_endpage.Size = new Size(0x3f, 0x17);
+            this.txt_endpage.Size = new System.Drawing.Size(63, 39);
             this.txt_endpage.TabIndex = 7;
-            this.txt_endpage.Text = "50";
-            this.txt_beginpage.Location = new Point(0x139, 0x45);
-            this.txt_beginpage.Margin = new Padding(3, 4, 3, 4);
+            this.txt_endpage.Text = "5";
+            // 
+            // txt_beginpage
+            // 
+            this.txt_beginpage.Location = new System.Drawing.Point(313, 69);
+            this.txt_beginpage.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_beginpage.Name = "txt_beginpage";
-            this.txt_beginpage.Size = new Size(0x3f, 0x17);
+            this.txt_beginpage.Size = new System.Drawing.Size(63, 39);
             this.txt_beginpage.TabIndex = 6;
             this.txt_beginpage.Text = "1";
+            // 
+            // label2
+            // 
             this.label2.AutoSize = true;
-            this.label2.Location = new Point(0xea, 0x6d);
+            this.label2.Location = new System.Drawing.Point(234, 109);
             this.label2.Name = "label2";
-            this.label2.Size = new Size(0x38, 0x11);
+            this.label2.Size = new System.Drawing.Size(110, 31);
             this.label2.TabIndex = 5;
             this.label2.Text = "价格区间";
+            // 
+            // label1
+            // 
             this.label1.AutoSize = true;
-            this.label1.Location = new Point(0xea, 0x48);
+            this.label1.Location = new System.Drawing.Point(234, 72);
             this.label1.Name = "label1";
-            this.label1.Size = new Size(0x38, 0x11);
+            this.label1.Size = new System.Drawing.Size(110, 31);
             this.label1.TabIndex = 4;
             this.label1.Text = "起始页数";
-            this.cb_sortType.DropDownStyle = ComboBoxStyle.DropDownList;
+            // 
+            // cb_sortType
+            // 
+            this.cb_sortType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_sortType.FormattingEnabled = true;
-            this.cb_sortType.Items.AddRange(new object[] { "综合排序" });
-            this.cb_sortType.Location = new Point(0x155, 0x18);
-            this.cb_sortType.Margin = new Padding(3, 4, 3, 4);
+            this.cb_sortType.Items.AddRange(new object[] {
+            "综合排序"});
+            this.cb_sortType.Location = new System.Drawing.Point(341, 24);
+            this.cb_sortType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cb_sortType.Name = "cb_sortType";
-            this.cb_sortType.Size = new Size(0x4c, 0x19);
+            this.cb_sortType.Size = new System.Drawing.Size(76, 39);
             this.cb_sortType.TabIndex = 3;
-            this.cb_searthType.DropDownStyle = ComboBoxStyle.DropDownList;
+            // 
+            // cb_searthType
+            // 
+            this.cb_searthType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_searthType.FormattingEnabled = true;
-            this.cb_searthType.Items.AddRange(new object[] { "商品" });
-            this.cb_searthType.Location = new Point(0x1b6, 0x18);
-            this.cb_searthType.Margin = new Padding(3, 4, 3, 4);
+            this.cb_searthType.Items.AddRange(new object[] {
+            "商品"});
+            this.cb_searthType.Location = new System.Drawing.Point(438, 24);
+            this.cb_searthType.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cb_searthType.Name = "cb_searthType";
-            this.cb_searthType.Size = new Size(0x36, 0x19);
+            this.cb_searthType.Size = new System.Drawing.Size(54, 39);
             this.cb_searthType.TabIndex = 2;
-            this.txt_keywords.Location = new Point(0x10, 0x18);
-            this.txt_keywords.Margin = new Padding(3, 4, 3, 4);
+            // 
+            // txt_keywords
+            // 
+            this.txt_keywords.Location = new System.Drawing.Point(16, 24);
+            this.txt_keywords.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.txt_keywords.Multiline = true;
             this.txt_keywords.Name = "txt_keywords";
-            this.txt_keywords.ScrollBars = ScrollBars.Vertical;
-            this.txt_keywords.Size = new Size(0xc9, 0x76);
+            this.txt_keywords.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txt_keywords.Size = new System.Drawing.Size(201, 118);
             this.txt_keywords.TabIndex = 0;
-            this.cb_platform.DropDownStyle = ComboBoxStyle.DropDownList;
+            // 
+            // cb_platform
+            // 
+            this.cb_platform.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cb_platform.FormattingEnabled = true;
-            this.cb_platform.Items.AddRange(new object[] { "马可波罗", "一号店", "1688", "ali express", "amazon.jp" });
-            this.cb_platform.Location = new Point(0xed, 0x18);
-            this.cb_platform.Margin = new Padding(3, 4, 3, 4);
+            this.cb_platform.Items.AddRange(new object[] {
+            "马可波罗",
+            "一号店",
+            "1688",
+            "ali express",
+            "amazon.jp"});
+            this.cb_platform.Location = new System.Drawing.Point(237, 24);
+            this.cb_platform.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.cb_platform.Name = "cb_platform";
-            this.cb_platform.Size = new Size(0x55, 0x19);
+            this.cb_platform.Size = new System.Drawing.Size(85, 39);
             this.cb_platform.TabIndex = 0;
-            base.AutoScaleDimensions = new SizeF(7f, 17f);
-            base.AutoScaleMode = AutoScaleMode.Font;
-            base.ClientSize = new Size(0x233, 0x1bb);
-            base.Controls.Add(this.groupBox1);
-            this.Font = new Font("微软雅黑", 9f, FontStyle.Regular, GraphicsUnit.Point, 0x86);
-            base.FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            base.Margin = new Padding(3, 4, 3, 4);
-            base.Name = "MainForm";
-            base.StartPosition = FormStartPosition.CenterScreen;
+            // 
+            // MainForm
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 31F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(563, 443);
+            this.Controls.Add(this.groupBox1);
+            this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "数据采集工具V1.0";
-            base.FormClosed += new FormClosedEventHandler(this.MainForm_FormClosed);
-            base.Load += new EventHandler(this.MainForm_Load);
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.MainForm_FormClosed);
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            base.ResumeLayout(false);
+            this.ResumeLayout(false);
+
         }
 
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)

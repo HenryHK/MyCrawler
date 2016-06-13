@@ -34,6 +34,9 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <EmbeddedResource Include="MyCrawler\MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <Reference Include="DoNet4.MyLog">
       <HintPath>lib\DoNet4.MyLog.dll</HintPath>
     </Reference>
@@ -69,6 +72,7 @@
     </Reference>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="MyCrawler\aeTh.cs" />
     <Compile Include="MyCrawler\taobaoTh.cs" />
     <Compile Include="MyCrawler\UpdateTextBox.cs" />
     <Compile Include="MyCrawler\BaseWorkth.cs" />
@@ -85,7 +89,6 @@
     <Compile Include="MyCrawler\Properties\Resources.cs" />
     <Compile Include="MyCrawler\Properties\Settings.cs" />
     <EmbeddedResource Include="MyCrawler.LoginForm.resources" />
-    <EmbeddedResource Include="MyCrawler.MainForm.resources" />
     <EmbeddedResource Include="MyCrawler.Properties.Resources.resources" />
   </ItemGroup>
   <ItemGroup>
